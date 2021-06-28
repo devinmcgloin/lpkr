@@ -36,7 +36,6 @@ const MonacoEditor = ({ program, handleProgramChange }) => {
           language="javascript"
           value={program}
           onChange={(value, event) => {
-            debugger;
             handleProgramChange(value);
           }}
           options={{

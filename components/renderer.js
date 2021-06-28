@@ -44,16 +44,17 @@ const Renderer = ({ program }) => {
         math = mth,
         color = clr,
         geometry = gmtry,
-        randomPalette = rndPlte;
+        randomPalette = rndPlte,
+        seed = Math.random();
 
       try {
         clearCanvas();
         const result = eval(
           `
-          function Render() {` +
+          (seed) => {` +
             program +
-            `\nreturn {sketch, settings}; }; console.log("----"); Render()`
-        );
+            `\nreturn {sketch, settings}; };`
+        )(seed);
         const { settings, sketch } = result;
         await canvasSketch(sketch, { ...settings, canvas: ref.current });
       } catch (error) {
@@ -63,7 +64,9 @@ const Renderer = ({ program }) => {
     func();
   }, [program]);
 
-  return <canvas className="margin block shadow mx-auto" ref={ref}></canvas>;
+  return (
+    <canvas className="margin block shadow mx-auto my-auto" ref={ref}></canvas>
+  );
 };
 
 export default function Runner({ program }) {
