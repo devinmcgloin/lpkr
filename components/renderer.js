@@ -44,12 +44,12 @@ const Renderer = ({ program }) => {
 
       try {
         clearCanvas();
-        let func = new Function(
-          `return (canvasSketch, seed, random, math, randomPalette) => {` +
+        let { settings, sketch } = new Function(
+          `return (seed, random, math, randomPalette) => {` +
             program +
-            `\n canvasSketch(sketch, { ...settings, canvas: document.getElementById("sketch") }) };`
-        );
-        func()(canvasSketch, seed, rnd, mth, randomPalette);
+            `\n return {sketch, settings}; };`
+        )()(seed, rnd, mth, randomPalette);
+        await canvasSketch(sketch, { ...settings, canvas: ref.current });
       } catch (error) {
         console.error(error);
       }
