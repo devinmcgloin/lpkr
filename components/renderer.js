@@ -39,11 +39,10 @@ const Renderer = ({ program }) => {
         randomPalette = rndPlte;
 
       try {
-        console.log(randomPalette);
         const result = eval(
           `function Render() {` +
             program +
-            `\nconsole.log(randomPalette); return {sketch, settings}; }; Render()`
+            `\nreturn {sketch, settings}; }; Render()`
         );
         const { settings, sketch } = result;
         await canvasSketch(sketch, { ...settings, canvas: ref.current });
