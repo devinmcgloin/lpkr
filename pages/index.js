@@ -1,65 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-
-import canvasSketch from 'canvas-sketch';
-import random from 'canvas-sketch-util/random';
-import { lerp } from 'canvas-sketch-util/math';
-
-// // Parameters for this artwork
-// const settings = {
-//   // Choose a paper size
-//   dimensions: 'A4',
-//   // Artwork Orientation
-//   orientation: 'portrait',
-//   // Print-ready size
-//   pixelsPerInch: 300,
-//   // You can work in 'cm', 'in' or 'px'
-//   units: 'cm',
-// };
-
-// // The sketch function defines the artwork
-// const sketch = () => {
-//   // Pad the edges of the artwork
-//   console.log('evaluating sketch()');
-//   const margin = 2;
-//   random.setSeed(Math.random());
-
-//   // Produce some randomly sized and placed points
-//   const pointCount = 100;
-//   const points = Array.from(new Array(pointCount)).map(() => {
-//     return {
-//       position: [random.value(), random.value()],
-//       size: Math.abs(random.gaussian()),
-//     };
-//   });
-
-//   // Return a renderer function for your artwork
-//   return ({ context, width, height }) => {
-//     console.log('evaluating render()');
-
-//     // Fill canvas with a background color
-//     context.fillStyle = 'hsl(0, 0%, 98%)';
-//     context.fillRect(0, 0, width, height);
-
-//     // All units are in 'cm'
-//     context.lineWidth = 0.1;
-
-//     // Draw each point
-//     points.forEach(({ position, size }) => {
-//       const radius = size * width * 0.01;
-//       const [u, v] = position;
-
-//       // Apply margin to UV coordinates
-//       const x = lerp(margin, width - margin, u);
-//       const y = lerp(margin, height - margin, v);
-
-//       // Draw our shapes
-//       context.fillStyle = 'hsl(0, 0%, 15%)';
-//       context.beginPath();
-//       context.arc(x, y, radius, 0, Math.PI * 2, false);
-//       context.stroke();
-//     });
-//   };
-// };
+import { useRef, useState } from 'react';
+import Renderer from 'components/renderer';
 import dynamic from 'next/dynamic';
 const EditorWithoutSSR = dynamic(() => import('components/editor'), {
   ssr: false,
@@ -69,82 +9,34 @@ const ConsoleWithoutSSR = dynamic(() => import('components/console'), {
 });
 
 export default function Home() {
-  const ref = useRef(null);
   const [program, setProgram] = useState(`
-  // Parameters for this artwork
-  const settings = {
-    // Choose a paper size
-    dimensions: 'A4',
-    // Artwork Orientation
-    orientation: 'portrait',
-    // Print-ready size
-    pixelsPerInch: 300,
-    // You can work in 'cm', 'in' or 'px'
-    units: 'cm',
-  };
-
-  // The sketch function defines the artwork
-  const sketch = () => {
-    // Pad the edges of the artwork
-    console.log('evaluating sketch()');
-    const margin = 2;
-    random.setSeed(Math.random());
-
-    // Produce some randomly sized and placed points
-    const pointCount = 100;
-    const points = Array.from(new Array(pointCount)).map(() => {
-      return {
-        position: [random.value(), random.value()],
-        size: Math.abs(random.gaussian()),
-      };
-    });
-
-    // Return a renderer function for your artwork
-    return ({ context, width, height }) => {
-      console.log('evaluating render()');
-
-      // Fill canvas with a background color
-      context.fillStyle = 'hsl(0, 0%, 98%)';
-      context.fillRect(0, 0, width, height);
-
-      // All units are in 'cm'
-      context.lineWidth = 0.1;
-
-      // Draw each point
-      points.forEach(({ position, size }) => {
-        const radius = size * width * 0.01;
-        const [u, v] = position;
-
-        // Apply margin to UV coordinates
-        const x = lerp(margin, width - margin, u);
-        const y = lerp(margin, height - margin, v);
-
-        // Draw our shapes
-        context.fillStyle = 'hsl(0, 0%, 15%)';
-        context.beginPath();
-        context.arc(x, y, radius, 0, Math.PI * 2, false);
-        context.stroke();
-      });
+    // Parameters for this artwork
+    const settings = {
+      dimensions: 'a4',
+      pixelsPerInch: 300,
+      units: 'in'
     };
-  };`);
 
-  const parseProgram = (program) => {
-    try {
-      let func = eval(program);
+    // Artwork function
+    const sketch = () => {
+      return ({ context, width, height }) => {
+        // Margin in inches
+        const margin = 1 / 4;
 
-      return func;
-    } catch (err) {
-      console.error(err);
-      return () => {};
-    }
-  };
+        // Off-white background
+        context.fillStyle = 'hsl(0, 0%, 98%)';
+        context.fillRect(0, 0, width, height);
 
-  useEffect(() => {
-    const {settings, sketch} = parseProgram(
-      `() => {` + program + `\nreturn {sketch, settings};}`
-    )()
-    canvasSketch(sketch, { ...settings, canvas: ref.current });
-  }, [program]);
+        // Gradient foreground
+        const fill = context.createLinearGradient(0, 0, width, height);
+        fill.addColorStop(0, 'cyan');
+        fill.addColorStop(1, 'orange');
+
+        // Fill rectangle
+        context.fillStyle = fill;
+        context.fillRect(margin, margin, width - margin * 2, height - margin * 2);
+      };
+    };`);
 
   return (
     <div className="flex h-screen	w-screen content-center items-center">
@@ -158,7 +50,7 @@ export default function Home() {
         <ConsoleWithoutSSR height={'h-1/5'} />
       </div>
       <div className="flex-grow	flex w-full h-full content-center items-center">
-        <canvas className="margin block shadow mx-auto" ref={ref}></canvas>
+        <Renderer program={program} />
       </div>
     </div>
   );
