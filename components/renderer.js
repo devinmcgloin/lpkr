@@ -4,7 +4,7 @@ import * as rnd from 'canvas-sketch-util/random';
 import * as mth from 'canvas-sketch-util/math';
 import * as clr from 'canvas-sketch-util/color';
 import * as gmtry from 'canvas-sketch-util/geometry';
-import { randomPalette as rndPlte } from 'lib/palette';
+import { randomPalette } from 'lib/palette';
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -40,21 +40,16 @@ const Renderer = ({ program }) => {
 
   useEffect(() => {
     let func = async () => {
-      let random = rnd,
-        math = mth,
-        color = clr,
-        geometry = gmtry,
-        randomPalette = rndPlte,
-        seed = Math.random();
+      let seed = Math.random();
 
       try {
         clearCanvas();
-        const result = eval(
+        const result = (1, eval)(
           `
-          (seed) => {` +
+          (seed, random, math, randomPalette) => {` +
             program +
             `\nreturn {sketch, settings}; };`
-        )(seed);
+        )(seed, rnd, mth, randomPalette);
         const { settings, sketch } = result;
         await canvasSketch(sketch, { ...settings, canvas: ref.current });
       } catch (error) {
