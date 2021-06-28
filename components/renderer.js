@@ -1,6 +1,10 @@
 import { Component, useEffect, useRef, useState } from 'react';
 import canvasSketch from 'canvas-sketch';
-import random from 'canvas-sketch-util/random';
+import * as rnd from 'canvas-sketch-util/random';
+import * as mth from 'canvas-sketch-util/math';
+import * as clr from 'canvas-sketch-util/color';
+import * as gmtry from 'canvas-sketch-util/geometry';
+import { randomPalette as rndPlte } from 'lib/palette';
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -28,12 +32,18 @@ const Renderer = ({ program }) => {
 
   useEffect(() => {
     let func = async () => {
-      let two = 2;
+      let random = rnd,
+        math = mth,
+        color = clr,
+        geometry = gmtry,
+        randomPalette = rndPlte;
+
       try {
-        const result = (1, eval)(
+        console.log(randomPalette);
+        const result = eval(
           `function Render() {` +
             program +
-            `\nconsole.log(two); return {sketch, settings}; }; Render()`
+            `\nconsole.log(randomPalette); return {sketch, settings}; }; Render()`
         );
         const { settings, sketch } = result;
         await canvasSketch(sketch, { ...settings, canvas: ref.current });

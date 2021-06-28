@@ -10,33 +10,78 @@ const ConsoleWithoutSSR = dynamic(() => import('components/console'), {
 
 export default function Home() {
   const [program, setProgram] = useState(`
-    // Parameters for this artwork
-    const settings = {
-      dimensions: 'a4',
-      pixelsPerInch: 300,
-      units: 'in'
-    };
 
-    // Artwork function
-    const sketch = () => {
-      return ({ context, width, height }) => {
-        // Margin in inches
-        const margin = 1 / 4;
+  const settings = {
+    pixelsPerInch: 300,
+    units: "in",
+    dimensions: [24, 24],
+    bleed: 1,
+    orientation: "landscape",
+  };
 
-        // Off-white background
-        context.fillStyle = 'hsl(0, 0%, 98%)';
-        context.fillRect(0, 0, width, height);
+  const sketch = () => {
+    let seed = Math.random();
 
-        // Gradient foreground
-        const fill = context.createLinearGradient(0, 0, width, height);
-        fill.addColorStop(0, 'cyan');
-        fill.addColorStop(1, 'orange');
+    return ({
+      context,
+      width,
+      height,
+      bleed,
+      trimWidth,
+      trimHeight,
+      exporting,
+    }) => {
+      random.setSeed(seed);
 
-        // Fill rectangle
-        context.fillStyle = fill;
-        context.fillRect(margin, margin, width - margin * 2, height - margin * 2);
+      const { background, palette } = randomPalette();
+
+      const ringCount = random.rangeFloor(6, palette.length);
+      context.fillStyle = background;
+      context.fillRect(0, 0, width, height);
+
+      if (!exporting && bleed > 0) {
+        context.strokeStyle = "red";
+        context.lineWidth = 0.0075;
+        context.strokeRect(bleed, bleed, trimWidth, trimHeight);
+      }
+
+      context.translate(width / 2, height / 2);
+
+      const drawRing = (radius) => {
+        const wave = () => {
+          let amplitude = random.value() / 20,
+            frequency = random.value(),
+            phase = random.value();
+          return (t) => amplitude * Math.sin(2 * Math.PI * frequency * t + phase);
+        };
+        context.lineWidth = 0.075;
+
+        let waves = [wave(), wave(), wave()];
+
+        context.beginPath();
+        for (let i = 0; i <= Math.PI * 2; i += Math.PI / 100000) {
+          const x = radius * Math.cos(i);
+          const y = radius * Math.sin(i);
+
+          let offset = waves
+            .map((wave) => wave(i))
+            .reduce((prev, current) => prev + current);
+
+          context.lineTo(x + x * offset, y + x * offset);
+        }
+
+        context.closePath();
+        context.fill();
       };
-    };`);
+
+      for (var index = ringCount; index > 0; index -= 1) {
+        context.fillStyle = palette[index];
+        context.strokeStyle = palette[index];
+        drawRing(index * 1.3);
+      }
+    };
+  };
+`);
 
   return (
     <div className="flex h-screen	w-screen content-center items-center">
