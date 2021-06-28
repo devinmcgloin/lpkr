@@ -30,6 +30,14 @@ class ErrorBoundary extends Component {
 const Renderer = ({ program }) => {
   const ref = useRef(null);
 
+  const clearCanvas = () => {
+    let canvas = ref.current;
+    let context = canvas.getContext('2d');
+
+    context.setTransform(1, 0, 0, 1, 0, 0);
+    context.clearRect(0, 0, canvas.width, canvas.height);
+  };
+
   useEffect(() => {
     let func = async () => {
       let random = rnd,
@@ -39,10 +47,12 @@ const Renderer = ({ program }) => {
         randomPalette = rndPlte;
 
       try {
+        clearCanvas();
         const result = eval(
-          `function Render() {` +
+          `
+          function Render() {` +
             program +
-            `\nreturn {sketch, settings}; }; Render()`
+            `\nreturn {sketch, settings}; }; console.log("----"); Render()`
         );
         const { settings, sketch } = result;
         await canvasSketch(sketch, { ...settings, canvas: ref.current });
