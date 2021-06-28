@@ -1,7 +1,7 @@
 import { Controlled as CodeMirror } from 'react-codemirror2';
 import { WithoutSSR } from 'lib/ssr';
 import 'codemirror/mode/javascript/javascript';
-import { ControlledEditor as Monaco } from '@monaco-editor/react';
+import Editor from '@monaco-editor/react';
 
 const CodeMirrorEditor = ({ program, handleProgramChange }) => {
   return (
@@ -32,17 +32,17 @@ const MonacoEditor = ({ program, handleProgramChange }) => {
   return (
     <WithoutSSR>
       <div className="h-full">
-        <Monaco
+        <Editor
           language="javascript"
           value={program}
-          onChange={(e, text) => {
-            handleProgramChange(text);
+          onChange={(value, event) => {
+            debugger;
+            handleProgramChange(value);
           }}
           options={{
             scrollBeyondLastLine: false,
             lineNumbers: 'off',
             horizontal: 'hidden',
-
             minimap: {
               enabled: false,
             },
@@ -54,4 +54,4 @@ const MonacoEditor = ({ program, handleProgramChange }) => {
 };
 
 export { MonacoEditor, CodeMirrorEditor };
-export default CodeMirrorEditor;
+export default MonacoEditor;
