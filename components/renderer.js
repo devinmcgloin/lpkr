@@ -44,14 +44,12 @@ const Renderer = ({ program }) => {
 
       try {
         clearCanvas();
-        const result = (1, eval)(
-          `
-          (seed, random, math, randomPalette) => {` +
+        let func = new Function(
+          `return (canvasSketch, seed, random, math, randomPalette) => {` +
             program +
-            `\nreturn {sketch, settings}; };`
-        )(seed, rnd, mth, randomPalette);
-        const { settings, sketch } = result;
-        await canvasSketch(sketch, { ...settings, canvas: ref.current });
+            `\n canvasSketch(sketch, { ...settings, canvas: document.getElementById("sketch") }) };`
+        );
+        func()(canvasSketch, seed, rnd, mth, randomPalette);
       } catch (error) {
         console.error(error);
       }
@@ -60,7 +58,11 @@ const Renderer = ({ program }) => {
   }, [program]);
 
   return (
-    <canvas className="margin block shadow mx-auto my-auto" ref={ref}></canvas>
+    <canvas
+      id="sketch"
+      className="margin block shadow mx-auto my-auto"
+      ref={ref}
+    ></canvas>
   );
 };
 
