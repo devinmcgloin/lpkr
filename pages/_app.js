@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }) {
         />
         <meta name="description" content="" />
         <meta name="keywords" content="" />
-        <title>LPKR</title>
+        <title>lpkr</title>
 
         <link rel="manifest" href="/manifest.json" />
         <link

@@ -1,6 +1,6 @@
 {
-  "name": "LPKR - Generative Art in the Browser",
-  "short_name": "LPKR",
+  "name": "lpkr - Generative Art in the Browser",
+  "short_name": "lpkr",
   "theme_color": "#ffffff",
   "background_color": "#FAF9F6",
   "display": "fullscreen",
