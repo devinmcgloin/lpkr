@@ -1,10 +1,8 @@
-import { useState, useEffect } from 'react';
-import { Hook, Unhook, Console, Decode } from 'console-feed';
-import { WithoutSSR } from 'lib/ssr';
+import { useState, useEffect } from "react";
+import { Hook, Unhook, Console, Decode } from "console-feed";
+import { WithoutSSR } from "lib/ssr";
 
-export default ({ height }) => {
-  const [logs, setLogs] = useState([]);
-
+export default ({ height, logs, setLogs }) => {
   useEffect(() => {
     Hook(window.console, (log) => {
       setLogs((logs) => [...logs, Decode(log)]);
@@ -15,7 +13,7 @@ export default ({ height }) => {
   return (
     <div
       className={`${height} overflow-y-scroll`}
-      style={{ backgroundColor: '#242424' }}
+      style={{ backgroundColor: "#242424" }}
     >
       <WithoutSSR>
         <Console logs={logs} variant="dark" />
