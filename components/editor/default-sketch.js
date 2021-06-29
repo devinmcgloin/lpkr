@@ -14,8 +14,7 @@ const sketch = () => {
     height,
     bleed,
     trimWidth,
-    trimHeight,
-    exporting,
+    trimHeight
   }) => {
     console.log(seed);
     random.setSeed(seed);
@@ -30,12 +29,6 @@ const sketch = () => {
     context.fillStyle = background;
     context.fillRect(0, 0, width, height);
     context.lineWidth = random.value() / 3;
-
-    if (!exporting && bleed > 0) {
-      context.strokeStyle = "red";
-      context.lineWidth = 0.05;
-      context.strokeRect(bleed, bleed, trimWidth, trimHeight);
-    }
 
     context.translate(width / 2, height / 2);
 
