@@ -2,7 +2,12 @@ import { useState } from "react";
 import Renderer from "components/editor/renderer";
 import dynamic from "next/dynamic";
 import defaultSketch from "./default-sketch";
-import { PlayIcon, LockOpenIcon, LockClosedIcon , DownloadIcon} from "@heroicons/react/solid";
+import {
+  PlayIcon,
+  LockOpenIcon,
+  LockClosedIcon,
+  DownloadIcon,
+} from "@heroicons/react/solid";
 
 const EditorWithoutSSR = dynamic(() => import("components/editor/editor"), {
   ssr: false,
@@ -20,10 +25,10 @@ export default function Editor() {
   const [fixedSeed, setFixedSeed] = useState(false);
 
   const download = () => {
-    var canvas = document.getElementById('sketch');
+    var canvas = document.getElementById("sketch");
 
-    var image = canvas.toDataURL('image/png');
-    var link = document.createElement('a');
+    var image = canvas.toDataURL("image/png");
+    var link = document.createElement("a");
     link.download = `${seed}.png`;
     link.href = image;
     link.click();
@@ -38,7 +43,7 @@ export default function Editor() {
               if (!shouldRefresh) {
                 setLogs([]);
                 setShouldRefresh(true);
-                if(!fixedSeed) setSeed(Math.random())
+                if (!fixedSeed) setSeed(Math.random());
               }
             }}
             type="button"
@@ -56,22 +61,30 @@ export default function Editor() {
           </button>
         </div>
         <div className="min-h-[3.5rem] border-b flex items-center px-2">
-        <button
+          <button
             onClick={() => {
-              setFixedSeed((prev) => !prev)
+              setFixedSeed((prev) => !prev);
             }}
             type="button"
             className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            {fixedSeed ?
-            <>
-            <LockClosedIcon className="-ml-0.5 mr-2 h-4 w-4" aria-hidden="true" />
-            {seed}
-            </>
-            : <>
-            <LockOpenIcon className="-ml-0.5 mr-2 h-4 w-4" aria-hidden="true" />
-           Random Seed
-            </>}
+            {fixedSeed ? (
+              <>
+                <LockClosedIcon
+                  className="-ml-0.5 mr-2 h-4 w-4"
+                  aria-hidden="true"
+                />
+                {seed}
+              </>
+            ) : (
+              <>
+                <LockOpenIcon
+                  className="-ml-0.5 mr-2 h-4 w-4"
+                  aria-hidden="true"
+                />
+                Random Seed
+              </>
+            )}
           </button>
         </div>
 
@@ -85,7 +98,7 @@ export default function Editor() {
       <div className="flex w-full h-full items-center justify-around bg-[#FAF9F6]">
         <Renderer
           seed={seed}
-            program={program}
+          program={program}
           shouldRefresh={shouldRefresh}
           onRefresh={() => setShouldRefresh(false)}
         />
