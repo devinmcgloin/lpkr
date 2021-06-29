@@ -120,15 +120,18 @@ const sketch = () => {
 
   return (
     <div className="flex h-screen w-screen overflow-hidden">
-      <div className="w-[40rem] md:w-[56rem] h-full border-r-2">
+      <div className="flex flex-col w-[40rem] md:w-[56rem] h-full border-r-2">
+        <div className="h-14 border-b">Nav / runner etc</div>
+        <div className="min-h-[3.5rem] border-b">Seed</div>
+
         <EditorWithoutSSR
-          height={'h-4/5'}
+          height={'flex-1'}
           program={program}
           handleProgramChange={(program) => setProgram(program)}
         />
-        <ConsoleWithoutSSR height={'h-1/5'} />
+        <ConsoleWithoutSSR height={'h-64'} />
       </div>
-      <div className="flex w-full h-full items-center justify-around">
+      <div className="flex w-full h-full items-center justify-around bg-[#FAF9F6]">
         <Renderer program={program} />
       </div>
     </div>
