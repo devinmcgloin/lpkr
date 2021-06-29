@@ -3,6 +3,7 @@ import canvasSketch from "canvas-sketch";
 import * as rnd from "canvas-sketch-util/random";
 import * as mth from "canvas-sketch-util/math";
 import { randomPalette } from "lib/palette";
+import PoissonDiskSampling from "poisson-disk-sampling";
 
 const Renderer = ({ program, seed, shouldRefresh, onRefresh }) => {
   const ref = useRef(null);
@@ -19,10 +20,10 @@ const Renderer = ({ program, seed, shouldRefresh, onRefresh }) => {
     try {
       clearCanvas();
       let { settings, sketch } = new Function(
-        `return (seed, random, math, randomPalette) => {` +
+        `return (seed, random, math, randomPalette, poisson) => {` +
           program +
           `\n return {sketch, settings}; };`
-      )()(seed, rnd, mth, randomPalette);
+      )()(seed, rnd, mth, randomPalette, PoissonDiskSampling);
       await canvasSketch(sketch, { ...settings, canvas: ref.current });
     } catch (error) {
       console.error(error);

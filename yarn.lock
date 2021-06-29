@@ -3106,6 +3106,11 @@ modern-normalize@^1.1.0:
   resolved "https://registry.yarnpkg.com/modern-normalize/-/modern-normalize-1.1.0.tgz#da8e80140d9221426bd4f725c6e11283d34f90b7"
   integrity sha512-2lMlY1Yc1+CUy0gw4H95uNN7vjbpoED7NNRSBHE25nWfLBdmMzFCsPshlzbxHz+gYMcBEUN8V4pU16prcdPSgA==
 
+moore@~1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/moore/-/moore-1.0.0.tgz#1d2b298c32cfd330db0fe81a0b5bac319fd9eb65"
+  integrity sha1-HSspjDLP0zDbD+gaC1usMZ/Z62U=
+
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
@@ -3495,6 +3500,13 @@ pnp-webpack-plugin@1.6.4:
   integrity sha512-7Wjy+9E3WwLOEL30D+m8TSTF7qJJUJLONBnwQp0518siuMxUQUbgZwssaFX+QKlZkjHZcw/IpZCt/H0srrntSg==
   dependencies:
     ts-pnp "^1.1.6"
+
+poisson-disk-sampling@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/poisson-disk-sampling/-/poisson-disk-sampling-2.2.2.tgz#d326f6be7e1704e1d54e6a024bd44a3fb33120e5"
+  integrity sha512-N+P2Tydw9leBaTyOwKQv12sgLGkvsZTfa6pHRD8QlbdzFN5gJ0ByzkQrwwKr3W2bxenWgktf9hb4m/RqQ+id4Q==
+  dependencies:
+    moore "~1.0.0"
 
 postcss-js@^3.0.3:
   version "3.0.3"
