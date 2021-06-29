@@ -29,7 +29,7 @@ function MyApp({ Component, pageProps }) {
           sizes="32x32"
         />
         <link rel="apple-touch-icon" href="/apple-icon.png"></link>
-        <meta name="theme-color" content="#FAF9F6" />
+        <meta name="theme-color" content="#FFF" />
       </Head>
       <Component {...pageProps} />
     </>
