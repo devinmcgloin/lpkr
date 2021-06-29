@@ -8,7 +8,7 @@ const ConsoleWithoutSSR = dynamic(() => import('components/console'), {
   ssr: false,
 });
 
-export default function Home() {
+export default function Editor() {
   const [program, setProgram] = useState(`
 const settings = {
   pixelsPerInch: 300,
@@ -119,17 +119,16 @@ const sketch = () => {
 `);
 
   return (
-    <div className="flex h-screen	w-screen content-center items-center">
-      <div className="w-[40rem] md:w-[56rem] border-r-2 h-screen">
-        <div className="flex-grow flex flex-col h-4/5">
-          <EditorWithoutSSR
-            program={program}
-            handleProgramChange={(program) => setProgram(program)}
-          />
-        </div>
+    <div className="flex h-screen w-screen overflow-hidden">
+      <div className="w-[40rem] md:w-[56rem] h-full border-r-2">
+        <EditorWithoutSSR
+          height={'h-4/5'}
+          program={program}
+          handleProgramChange={(program) => setProgram(program)}
+        />
         <ConsoleWithoutSSR height={'h-1/5'} />
       </div>
-      <div className="flex-grow	flex w-full h-full content-center items-center">
+      <div className="flex w-full h-full items-center justify-around">
         <Renderer program={program} />
       </div>
     </div>

@@ -28,10 +28,10 @@ const CodeMirrorEditor = ({ program, handleProgramChange }) => {
   );
 };
 
-const MonacoEditor = ({ program, handleProgramChange }) => {
+const MonacoEditor = ({ height = 'h-full', program, handleProgramChange }) => {
   return (
     <WithoutSSR>
-      <div className="h-full">
+      <div className={height}>
         <Editor
           language="javascript"
           value={program}

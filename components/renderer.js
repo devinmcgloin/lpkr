@@ -58,11 +58,7 @@ const Renderer = ({ program }) => {
   }, [program]);
 
   return (
-    <canvas
-      id="sketch"
-      className="margin block shadow mx-auto my-auto"
-      ref={ref}
-    ></canvas>
+    <canvas id="sketch" className="margin block shadow" ref={ref}></canvas>
   );
 };
 
