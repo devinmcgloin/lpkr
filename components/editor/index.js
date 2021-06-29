@@ -35,7 +35,7 @@ export default function Editor() {
   };
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden">
+    <div className="flex h-screen w-screen overflow-hidden border-t">
       <div className="flex flex-col w-[40rem] md:w-[56rem] h-full border-r-2">
         <div className="h-14 border-b flex items-center px-2 space-x-2">
           <button
