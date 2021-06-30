@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useReducer, useState } from "react";
 import Renderer from "components/editor/renderer";
 import dynamic from "next/dynamic";
 import defaultSketch from "./default-sketch";
@@ -18,6 +18,10 @@ const ConsoleWithoutSSR = dynamic(() => import("components/editor/console"), {
   ssr: false,
 });
 
+const settingsReducer = (state, action) => {
+  return { ...state, [action.type]: action.value };
+};
+
 export default function Editor() {
   const [program, setProgram] = useState(defaultSketch);
   const [shouldRefresh, setShouldRefresh] = useState(false);
@@ -25,6 +29,10 @@ export default function Editor() {
   const [seeds, setSeeds] = useState([Math.random()]);
   const [fixedSeed, setFixedSeed] = useState(false);
   const [multiEditorCount, setMultiEditorCount] = useState(1);
+  const [settings, dispatchSettings] = useReducer(settingsReducer, {
+    dimensions: [1000, 1000],
+    pixelsPerInch: 300,
+  });
 
   const multiMode = multiEditorCount > 1;
 
@@ -37,7 +45,7 @@ export default function Editor() {
 
       var image = canvas.toDataURL("image/png");
       var link = document.createElement("a");
-      link.download = `${seeds[seedsIndex]}.png`;
+      link.download = `${seeds[seedIndex]}.png`;
       link.href = image;
       link.click();
       seedIndex += 1;
@@ -47,7 +55,7 @@ export default function Editor() {
   return (
     <div className="flex h-screen w-screen border-t overscroll-none overflow-y-hidden">
       <div className="flex flex-none flex-col w-[40rem] md:w-[48rem] h-full border-r-2 bg-white">
-        <div className="min-h-[3.5rem] border-b flex items-center px-2 space-x-2">
+        <div className="min-h-[3.5rem] border-b flex items-center justify-between px-2">
           <button
             onClick={() => {
               if (!shouldRefresh) {
@@ -65,24 +73,32 @@ export default function Editor() {
             <PlayIcon className="-ml-0.5 mr-2 h-4 w-4" aria-hidden="true" />
             Run
           </button>
-          <button
-            onClick={() => download()}
-            type="button"
-            className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            <DownloadIcon className="m-0.5  h-4 w-4" aria-hidden="true" />
-          </button>
-          <button
-            onClick={() => {
-              let count = multiMode ? 1 : 4;
-              setMultiEditorCount(count);
-              setSeeds(Array.from(Array(count)).map(() => Math.random()));
-            }}
-            type="button"
-            className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            <ViewBoardsIcon className="m-0.5  h-4 w-4" aria-hidden="true" />
-          </button>
+          <div className="flex items-center px-2 space-x-2">
+            {!multiMode && (
+              <button
+                onClick={() => download()}
+                type="button"
+                className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                <DownloadIcon className="m-0.5  h-4 w-4" aria-hidden="true" />
+              </button>
+            )}
+            <button
+              onClick={() => {
+                let count = multiMode ? 1 : 8;
+                setMultiEditorCount(count);
+                setSeeds(Array.from(Array(count)).map(() => Math.random()));
+                dispatchSettings({
+                  type: "dimensions",
+                  value: multiMode ? [1000, 1000] : [500, 500],
+                });
+              }}
+              type="button"
+              className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              <ViewBoardsIcon className="m-0.5  h-4 w-4" aria-hidden="true" />
+            </button>
+          </div>
         </div>
         <div className="min-h-[3.5rem] border-b flex items-center px-2">
           <button
@@ -122,6 +138,7 @@ export default function Editor() {
       {!multiMode ? (
         <div className="flex w-full h-full items-center justify-around bg-[#FAF9F6] ">
           <Renderer
+            settings={settings}
             seed={seeds[0]}
             program={program}
             shouldRefresh={shouldRefresh}
@@ -129,10 +146,11 @@ export default function Editor() {
           />
         </div>
       ) : (
-        <div className="h-full grid bg-[#FAF9F6] overflow-x-auto">
-          <div className="flex h-full w-full items-center justify-around px-10 space-x-7">
+        <div className="h-full w-full grid bg-[#FAF9F6] overflow-x-auto">
+          <div className="grid grid-cols-2 w-full gap-7 p-7">
             {Array.from(Array(multiEditorCount)).map((id, index) => (
               <Renderer
+                settings={settings}
                 key={index}
                 seed={seeds[index]}
                 program={program}
