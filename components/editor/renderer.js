@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
 import canvasSketch from "canvas-sketch";
 import * as rnd from "canvas-sketch-util/random";
-import * as mth from "canvas-sketch-util/math";
+import math, * as mth from "canvas-sketch-util/math";
+import * as geo from "canvas-sketch-util/geometry";
 import { randomPalette } from "lib/palette";
 import PoissonDiskSampling from "poisson-disk-sampling";
 
@@ -20,10 +21,10 @@ const Renderer = ({ program, seed, shouldRefresh, onRefresh }) => {
     try {
       clearCanvas();
       let { settings, sketch } = new Function(
-        `return (seed, random, math, randomPalette, poisson) => {` +
+        `return (seed, random, math, geometry, randomPalette, poisson) => {` +
           program +
           `\n return {sketch, settings}; };`
-      )()(seed, rnd, mth, randomPalette, PoissonDiskSampling);
+      )()(seed, rnd, mth, geo, randomPalette, PoissonDiskSampling);
       await canvasSketch(sketch, { ...settings, canvas: ref.current });
     } catch (error) {
       console.error(error);
@@ -40,7 +41,12 @@ const Renderer = ({ program, seed, shouldRefresh, onRefresh }) => {
   }, [shouldRefresh]);
 
   return (
-    <canvas id="sketch" className="margin block shadow" ref={ref}></canvas>
+    <div>
+      <canvas id="sketch" className="margin block shadow" ref={ref}></canvas>
+      <div className="mt-5 mx-auto text-center">
+        <p className=" text-lg text-gray-500">{seed}</p>
+      </div>
+    </div>
   );
 };
 
