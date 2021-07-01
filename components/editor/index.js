@@ -9,6 +9,7 @@ import {
   DownloadIcon,
   ViewBoardsIcon,
 } from "@heroicons/react/solid";
+import useLocalStorage from "hooks/local-storage";
 
 const EditorWithoutSSR = dynamic(() => import("components/editor/editor"), {
   ssr: false,
@@ -23,7 +24,10 @@ const settingsReducer = (state, action) => {
 };
 
 export default function Editor() {
-  const [program, setProgram] = useState(defaultSketch);
+  const [program, setProgram] = useLocalStorage(
+    "sketch-program",
+    defaultSketch
+  );
   const [shouldRefresh, setShouldRefresh] = useState(false);
   const [logs, setLogs] = useState([]);
   const [seeds, setSeeds] = useState([Math.random()]);
