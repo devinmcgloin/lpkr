@@ -90,7 +90,7 @@ export default function Editor() {
                 setSeeds(Array.from(Array(count)).map(() => Math.random()));
                 dispatchSettings({
                   type: "dimensions",
-                  value: multiMode ? [1000, 1000] : [500, 500],
+                  value: multiMode ? [1000, 1000] : [300, 300],
                 });
               }}
               type="button"
