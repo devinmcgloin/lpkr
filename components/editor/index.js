@@ -147,7 +147,7 @@ export default function Editor() {
         </div>
       ) : (
         <div className="h-full w-full grid bg-[#FAF9F6] overflow-x-auto">
-          <div className="grid grid-cols-2 w-full gap-7 p-7">
+          <div className="grid grid-cols-2 lg:grid-cols-3 w-full gap-7 p-7">
             {Array.from(Array(multiEditorCount)).map((id, index) => (
               <Renderer
                 settings={settings}
