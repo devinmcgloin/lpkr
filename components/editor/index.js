@@ -54,7 +54,7 @@ export default function Editor() {
 
   return (
     <div className="flex h-screen w-screen border-t overscroll-none overflow-y-hidden">
-      <div className="flex flex-none flex-col w-[40rem] md:w-[48rem] h-full border-r-2 bg-white">
+      <div className="flex flex-none flex-col w-[40rem] h-full border-r-2 bg-white">
         <div className="min-h-[3.5rem] border-b flex items-center justify-between px-2">
           <button
             onClick={() => {
