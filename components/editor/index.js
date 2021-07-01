@@ -85,7 +85,7 @@ export default function Editor() {
             )}
             <button
               onClick={() => {
-                let count = multiMode ? 1 : 8;
+                let count = multiMode ? 1 : 12;
                 setMultiEditorCount(count);
                 setSeeds(Array.from(Array(count)).map(() => Math.random()));
                 dispatchSettings({
