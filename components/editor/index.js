@@ -137,7 +137,7 @@ export default function Editor() {
           program={program}
           handleProgramChange={(program) => setProgram(program)}
         />
-        <ConsoleWithoutSSR height={"h-64"} logs={logs} setLogs={setLogs} />
+        <ConsoleWithoutSSR height={"h-32"} logs={logs} setLogs={setLogs} />
       </div>
       {!multiMode ? (
         <div className="flex w-full h-full items-center justify-around bg-[#FAF9F6] ">

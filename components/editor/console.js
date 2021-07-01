@@ -4,19 +4,20 @@ import { WithoutSSR } from "lib/ssr";
 
 export default ({ height, logs, setLogs }) => {
   useEffect(() => {
-    Hook(window.console, (log) => {
-      setLogs((logs) => [...logs, Decode(log)]);
-    });
+    Hook(
+      window.console,
+      (log) => {
+        setLogs((logs) => [...logs, log]);
+      },
+      false
+    );
     return () => Unhook(window.console);
   }, []);
 
   return (
-    <div
-      className={`${height} overflow-y-scroll`}
-      style={{ backgroundColor: "#242424" }}
-    >
+    <div className={`${height} overflow-y-scroll border-t bg-white`}>
       <WithoutSSR>
-        <Console logs={logs} variant="dark" />
+        <Console logs={logs} variant="light" />
       </WithoutSSR>
     </div>
   );

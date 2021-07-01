@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import canvasSketch from "canvas-sketch";
 import * as rnd from "canvas-sketch-util/random";
-import math, * as mth from "canvas-sketch-util/math";
+import  * as mth from "canvas-sketch-util/math";
 import * as geo from "canvas-sketch-util/geometry";
 import { randomPalette } from "lib/palette";
 import PoissonDiskSampling from "poisson-disk-sampling";

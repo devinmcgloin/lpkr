@@ -13,11 +13,13 @@ const MonacoEditor = ({ height = "h-full", program, handleProgramChange }) => {
           }}
           options={{
             scrollBeyondLastLine: false,
-            lineNumbers: "off",
+            lineNumbers: "on",
             horizontal: "hidden",
             minimap: {
               enabled: false,
             },
+            formatOnPaste: true,
+            formatOnType: true,
           }}
         />
       </div>
