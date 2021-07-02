@@ -88,7 +88,7 @@ export default function HelpModal({ open, setOpen }) {
                       your programs can generate consistently good results.
                     </p>
 
-                    <h4>Using lpkr</h4>
+                    <h4 className="text-center">Using lpkr</h4>
                     <p>
                       lpkr is based on{" "}
                       <a
