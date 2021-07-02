@@ -87,7 +87,7 @@ export default function Editor() {
   return (
     <div className="flex h-screen w-screen border-t overscroll-none overflow-y-hidden">
       <div className="flex flex-none flex-col w-[40rem] h-full border-r-2 bg-white">
-        <div className="min-h-[3.5rem] border-b flex items-center justify-between px-2">
+        <div className="border-b flex items-center justify-between px-2 py-2">
           <button
             onClick={() => {
               if (!shouldRefresh) {
@@ -159,7 +159,7 @@ export default function Editor() {
             </button>
           </div>
         </div>
-        <div className="min-h-[3.5rem] border-b flex items-center flex-wrap pb-2 overflow-y-scroll">
+        <div className="border-b flex items-center flex-wrap pb-2">
           <button
             onClick={() => {
               setFixedSeed((prev) => !prev);
