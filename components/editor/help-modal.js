@@ -113,7 +113,8 @@ export default function HelpModal({ open, setOpen }) {
                       <PlusCircleIcon className="w-4 h-4 align-middle inline" />{" "}
                       button. Any parameters can be complex expressions and will
                       be evaluated. You can optionally lock a variable into a
-                      linear interpolation at 1/12 increments.
+                      linear interpolation at 1/12 increments. You'll find
+                      variables inside the <code>variables</code> namespace.
                     </p>
 
                     <p>
