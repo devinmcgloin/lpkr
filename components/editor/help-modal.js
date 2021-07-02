@@ -123,6 +123,14 @@ export default function HelpModal({ open, setOpen }) {
                       branch out into new ideas while being able to return to
                       past checkpoints.
                     </p>
+                    <p>
+                      Made by{" "}
+                      <a href="https://twitter.com/devinmcgloin">
+                        Devin McGloin
+                      </a>
+                      , let me know if you bump into any issues or have any
+                      feedback!
+                    </p>
                   </div>
                 </div>
                 <div className="mt-5 sm:mt-6">
