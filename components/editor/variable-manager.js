@@ -13,7 +13,7 @@ const VariableEditor = ({
   name,
   min,
   max,
-  uniformSample,
+  linearInterpolate,
   onChange,
   onRemove,
 }) => {
@@ -30,7 +30,7 @@ const VariableEditor = ({
               !name &&
               "border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500"
             } ${
-              uniformSample && "border-green-300 text-green-600"
+              linearInterpolate && "border-green-300 text-green-600"
             } hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 `}
           >
             {!!name ? (
@@ -125,7 +125,7 @@ const VariableEditor = ({
                     className="text-sm font-medium text-gray-900"
                     passive
                   >
-                    Uniform Sample
+                    Linear Interpolate
                   </Switch.Label>
                   <Switch.Description
                     as="span"
@@ -135,17 +135,19 @@ const VariableEditor = ({
                   </Switch.Description>
                 </span>
                 <Switch
-                  checked={uniformSample}
-                  onChange={() => onChange({ uniformSample: !uniformSample })}
+                  checked={linearInterpolate}
+                  onChange={() =>
+                    onChange({ linearInterpolate: !linearInterpolate })
+                  }
                   className={classNames(
-                    uniformSample ? "bg-green-600" : "bg-gray-200",
+                    linearInterpolate ? "bg-green-600" : "bg-gray-200",
                     "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   )}
                 >
                   <span
                     aria-hidden="true"
                     className={classNames(
-                      uniformSample ? "translate-x-5" : "translate-x-0",
+                      linearInterpolate ? "translate-x-5" : "translate-x-0",
                       "pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"
                     )}
                   />

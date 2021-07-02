@@ -9,9 +9,11 @@ import {
   DownloadIcon,
   ViewBoardsIcon,
   PlusCircleIcon,
+  QuestionMarkCircleIcon,
 } from "@heroicons/react/solid";
 import useLocalStorage from "hooks/local-storage";
 import VariableEditor from "./variable-manager";
+import HelpModal from "components/editor/help-modal";
 
 const EditorWithoutSSR = dynamic(() => import("components/editor/editor"), {
   ssr: false,
@@ -42,10 +44,11 @@ export default function Editor() {
     pixelsPerInch: 300,
   });
   const [variables, setVariables] = useLocalStorage("sketch-variables", [
-    { name: "flow", min: "1", max: "2", uniformSample: false },
-    { name: "scale", min: "0", max: "0.01", uniformSample: true },
+    { name: "flow", min: "1", max: "2", linearInterpolate: false },
+    { name: "scale", min: "0", max: "0.01", linearInterpolate: true },
     { name: "stepSize", min: "5", max: "8" },
   ]);
+  const [showHelpModal, setShowHelpModal] = useLocalStorage("help-modal", true);
 
   const handleVariableUpdate = (index) => {
     return (variable) => {
@@ -100,7 +103,7 @@ export default function Editor() {
               }
             }}
             type="button"
-            className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
             {shouldRefresh ? (
               <>
@@ -137,7 +140,7 @@ export default function Editor() {
               <button
                 onClick={() => download()}
                 type="button"
-                className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 <DownloadIcon className="m-0.5  h-4 w-4" aria-hidden="true" />
               </button>
@@ -153,10 +156,24 @@ export default function Editor() {
                 });
               }}
               type="button"
-              className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               <ViewBoardsIcon className="m-0.5 h-4 w-4" aria-hidden="true" />
             </button>
+
+            <button
+              onClick={() => {
+                setShowHelpModal(true);
+              }}
+              type="button"
+              className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              <QuestionMarkCircleIcon
+                className="m-0.5 h-4 w-4"
+                aria-hidden="true"
+              />
+            </button>
+            <HelpModal open={showHelpModal} setOpen={setShowHelpModal} />
           </div>
         </div>
         <div className="border-b flex items-center flex-wrap pb-2">
@@ -165,7 +182,7 @@ export default function Editor() {
               setFixedSeed((prev) => !prev);
             }}
             type="button"
-            className="inline-flex items-center ml-2 mt-2 px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="inline-flex items-center ml-2 mt-2 px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
             {fixedSeed ? (
               <>
@@ -201,7 +218,7 @@ export default function Editor() {
               ]);
             }}
             type="button"
-            className="ml-2 mt-2 inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="ml-2 mt-2 inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
             <PlusCircleIcon className="m-0.5 h-4 w-4" aria-hidden="true" />
           </button>

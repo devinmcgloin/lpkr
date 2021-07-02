@@ -49,7 +49,7 @@ const Renderer = ({
   const generateVariables = (variables) => {
     let vars = {};
     variables.forEach((element) => {
-      if (element.uniformSample) {
+      if (element.linearInterpolate) {
         vars[element.name] = mth.lerp(
           (1, eval)(`(${element.min})`),
           (1, eval)(`(${element.max})`),
