@@ -122,7 +122,7 @@ const VariableEditor = ({
                     className="text-sm font-medium text-gray-900"
                     passive
                   >
-                    Unfiform Sample
+                    Uniform Sample
                   </Switch.Label>
                   <Switch.Description
                     as="span"
