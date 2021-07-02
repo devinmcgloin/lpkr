@@ -68,6 +68,7 @@ const Renderer = ({
     try {
       clearCanvas();
       rnd.setSeed(seed);
+      rnd.permuteNoise();
 
       let sketch = new Function(fullProgram(program))()(
         seed,
