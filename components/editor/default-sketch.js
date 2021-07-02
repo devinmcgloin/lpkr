@@ -1,38 +1,32 @@
-const defaultSketch = `const { background, palette } = randomPalette();
+const defaultSketch = `const p2c = (r, theta) => [r * Math.cos(theta), r * Math.sin(theta), 0];
+const { background, palette } = randomPalette();
+
+const ringCount = palette.length;
 
 context.fillStyle = background;
 context.fillRect(0, 0, width, height);
 
-const fill = context.createLinearGradient(0, 0, width, height);
-fill.addColorStop(0, random.pick(palette));
-fill.addColorStop(1, random.pick(palette));
+context.translate(width / 2, height / 2);
 
-context.fillStyle = fill;
-random.chance()
-  ? context.fillRect(bleed, bleed, trimWidth, trimHeight)
-  : context.fillRect(0, 0, width, height);
+let points = [];
 
-const hatch = () => {
-  const lines = geometry.createHatchLines(
-    [
-      [0, 0],
-      [width, height],
-    ],
-    variables.line_angle,
-    variables.line_spacing,
-  );
+for (let index = 0; index < 2 * Math.PI; index += Math.PI / 1000)
+  points.push(p2c(h(0.2), index));
 
-  context.strokeStyle = background;
-  context.lineWidth = h(0.2) / lines.length;
-  lines.forEach((element) => {
-    context.beginPath()
-    context.moveTo(element[0][0], element[0][1]);
-    context.lineTo(element[1][0], element[1][1]);
-    context.stroke();
+for (var index = ringCount; index > 0; index -= 1) {
+  context.fillStyle = palette[index];
+  context.strokeStyle = palette[index];
+  context.lineWidth = 2;
+
+  context.beginPath();
+  points.forEach((point, index) => {
+    let offset = random.noise2D(point[0], point[1], variables.scale, variables.flow);
+    const xDelta = Math.sin(offset) * variables.stepSize,
+      yDelta = Math.cos(offset) * variables.stepSize;
+    context.lineTo(point[0] + xDelta, point[1] + yDelta);
+    points[index] = [point[0] + xDelta, point[1] + yDelta];
   });
-};
-
-for (let i = random.range(1, 2); i > 0; i--) hatch();
-
+  context.stroke();
+}
 `;
 export default defaultSketch;

@@ -40,8 +40,9 @@ export default function Editor() {
     pixelsPerInch: 300,
   });
   const [variables, setVariables] = useLocalStorage("sketch-variables", [
-    { name: "line_angle", min: "1", max: "2 * Math.PI", uniformSample: true },
-    { name: "line_spacing", min: "10", max: "200", uniformSample: true },
+    { name: "flow", min: "1", max: "2", uniformSample: false },
+    { name: "scale", min: "0", max: "0.01", uniformSample: true },
+    { name: "stepSize", min: "5", max: "8" },
   ]);
 
   const handleVariableUpdate = (index) => {
