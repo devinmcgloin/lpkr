@@ -25,10 +25,13 @@ const VariableEditor = ({
             {...props}
             ref={ref}
             className={`relative ml-2 mt-2 inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md ${
-              !!name
-                ? "text-gray-700 bg-white"
-                : "border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500"
-            } hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+              !!name && "text-gray-700 bg-white focus:ring-indigo-500"
+            } ${
+              !name &&
+              "border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500"
+            } ${
+              uniformSample && "border-green-300 text-green-600"
+            } hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 `}
           >
             {!!name ? (
               <>
@@ -135,7 +138,7 @@ const VariableEditor = ({
                   checked={uniformSample}
                   onChange={() => onChange({ uniformSample: !uniformSample })}
                   className={classNames(
-                    uniformSample ? "bg-indigo-600" : "bg-gray-200",
+                    uniformSample ? "bg-green-600" : "bg-gray-200",
                     "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   )}
                 >
