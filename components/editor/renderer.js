@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import canvasSketch from "canvas-sketch";
 import * as rnd from "canvas-sketch-util/random";
 import * as mth from "canvas-sketch-util/math";
@@ -16,6 +16,7 @@ const Renderer = ({
   onRefresh,
 }) => {
   const ref = useRef(null);
+  const [topVars, setTopVars] = useState({});
 
   const clearCanvas = () => {
     let canvas = ref.current;
@@ -52,7 +53,7 @@ const Renderer = ({
         vars[element.name] = mth.lerp(
           (1, eval)(`(${element.min})`),
           (1, eval)(`(${element.max})`),
-          index / 12
+          index / 11
         );
       } else {
         vars[element.name] = rnd.range(
@@ -69,10 +70,12 @@ const Renderer = ({
       clearCanvas();
       rnd.setSeed(seed);
       rnd.permuteNoise();
+      let evalVariables = generateVariables(variables);
+      setTopVars(evalVariables);
 
       let sketch = new Function(fullProgram(program))()(
         seed,
-        generateVariables(variables),
+        evalVariables,
         rnd,
         mth,
         geo,
@@ -97,8 +100,14 @@ const Renderer = ({
   return (
     <div className="flex flex-col items-center justify-around">
       <canvas id="sketch" className="margin block shadow" ref={ref}></canvas>
-      <div className="mt-5 mx-auto text-center">
-        <p className=" text-lg text-gray-500">{seed}</p>
+      <div className="mt-1 mx-auto text-center">
+        <ul className=" text-sm text-gray-500">
+          {Object.entries(topVars).map(([key, val]) => (
+            <li>
+              {key.toLocaleString()}: {val.toLocaleString()}
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
