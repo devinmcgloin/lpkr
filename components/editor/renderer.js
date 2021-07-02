@@ -6,7 +6,15 @@ import * as geo from "canvas-sketch-util/geometry";
 import { randomPalette } from "lib/palette";
 import PoissonDiskSampling from "poisson-disk-sampling";
 
-const Renderer = ({ program, settings, seed, shouldRefresh, onRefresh }) => {
+const Renderer = ({
+  index,
+  program,
+  variables,
+  settings,
+  seed,
+  shouldRefresh,
+  onRefresh,
+}) => {
   const ref = useRef(null);
 
   const clearCanvas = () => {
@@ -18,10 +26,8 @@ const Renderer = ({ program, settings, seed, shouldRefresh, onRefresh }) => {
   };
 
   const fullProgram = (program) =>
-    `return (seed, random, math, geometry, randomPalette, poisson) => {
+    `return (seed, variables, random, math, geometry, randomPalette, poisson) => {
     const sketch = () => {
-      random.setSeed(seed);
-
       return ({
         context,
         width,
@@ -39,11 +45,33 @@ const Renderer = ({ program, settings, seed, shouldRefresh, onRefresh }) => {
     return sketch;
   };`;
 
+  const generateVariables = (variables) => {
+    let vars = {};
+    variables.forEach((element) => {
+      if (element.uniformSample) {
+        vars[element.name] = mth.lerp(
+          (1, eval)(`(${element.min})`),
+          (1, eval)(`(${element.max})`),
+          index / 12
+        );
+      } else {
+        vars[element.name] = rnd.range(
+          (1, eval)(`(${element.min})`),
+          (1, eval)(`(${element.max})`)
+        );
+      }
+    });
+    return vars;
+  };
+
   const refresh = async () => {
     try {
       clearCanvas();
+      rnd.setSeed(seed);
+
       let sketch = new Function(fullProgram(program))()(
         seed,
+        generateVariables(variables),
         rnd,
         mth,
         geo,

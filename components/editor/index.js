@@ -39,11 +39,7 @@ export default function Editor() {
     dimensions: [1000, 1000],
     pixelsPerInch: 300,
   });
-  const [variables, setVariables] = useState([
-    { name: "line_angle", min: "20", max: "200" },
-    { name: "line_spacing", min: "2", max: "2 * Math.PI" },
-    { name: "line_width", min: "20", max: "200" },
-  ]);
+  const [variables, setVariables] = useLocalStorage("sketch-variables", []);
 
   const handleVariableUpdate = (index) => {
     return (variable) => {
@@ -52,6 +48,14 @@ export default function Editor() {
         ...newVariables[index],
         ...variable,
       });
+      setVariables(newVariables);
+    };
+  };
+
+  const handleVariableDelete = (index) => {
+    return () => {
+      let newVariables = [...variables];
+      newVariables.splice(index, 1);
       setVariables(newVariables);
     };
   };
@@ -180,13 +184,14 @@ export default function Editor() {
               {...variable}
               key={index}
               onChange={handleVariableUpdate(index)}
+              onRemove={handleVariableDelete(index)}
             />
           ))}
           <button
             onClick={() => {
               setVariables((prev) => [
                 ...prev,
-                { name: "Undefined", min: null, max: null, editing: true },
+                { name: null, min: null, max: null },
               ]);
             }}
             type="button"
@@ -206,8 +211,10 @@ export default function Editor() {
       {!multiMode ? (
         <div className="flex w-full h-full items-center justify-around bg-[#FAF9F6] ">
           <Renderer
+            index={0}
             settings={settings}
             seed={seeds[0]}
+            variables={variables}
             program={program}
             shouldRefresh={shouldRefresh}
             onRefresh={() => setShouldRefresh(false)}
@@ -220,8 +227,10 @@ export default function Editor() {
               <Renderer
                 settings={settings}
                 key={index}
+                index={index}
                 seed={seeds[index]}
                 program={program}
+                variables={variables}
                 shouldRefresh={shouldRefresh}
                 onRefresh={() => setShouldRefresh(false)}
               />
