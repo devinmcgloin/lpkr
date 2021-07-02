@@ -7,7 +7,6 @@ const fill = context.createLinearGradient(0, 0, width, height);
 fill.addColorStop(0, random.pick(palette));
 fill.addColorStop(1, random.pick(palette));
 
-// Fill rectangle
 context.fillStyle = fill;
 random.chance()
   ? context.fillRect(bleed, bleed, trimWidth, trimHeight)
@@ -19,8 +18,8 @@ const hatch = () => {
       [0, 0],
       [width, height],
     ],
-    random.range(1, 2 * Math.PI),
-    random.range(20, 200)
+    variables.line_angle,
+    variables.line_spacing,
   );
 
   context.strokeStyle = background;
@@ -33,6 +32,7 @@ const hatch = () => {
   });
 };
 
-for (let i = random.range(1, 3); i > 0; i--) hatch();
+for (let i = random.range(1, 2); i > 0; i--) hatch();
+
 `;
 export default defaultSketch;
