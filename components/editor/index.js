@@ -32,11 +32,13 @@ export default function Editor() {
   );
   const [shouldRefresh, setShouldRefresh] = useState(false);
   const [logs, setLogs] = useState([]);
-  const [seeds, setSeeds] = useState([Math.random()]);
+  const [seeds, setSeeds] = useState(
+    Array.from(Array(12)).map(() => Math.random())
+  );
   const [fixedSeed, setFixedSeed] = useState(false);
-  const [multiEditorCount, setMultiEditorCount] = useState(1);
+  const [multiEditorCount, setMultiEditorCount] = useState(12);
   const [settings, dispatchSettings] = useReducer(settingsReducer, {
-    dimensions: [1000, 1000],
+    dimensions: [300, 300],
     pixelsPerInch: 300,
   });
   const [variables, setVariables] = useLocalStorage("sketch-variables", [

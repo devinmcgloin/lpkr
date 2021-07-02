@@ -1,4 +1,19 @@
-const defaultSketch = `const p2c = (r, theta) => [r * Math.cos(theta), r * Math.sin(theta), 0];
+const defaultSketch = `
+
+// lpkr is a generative art tool, it's designed to help you explore
+// space of random variables your program uses.
+//
+// For this example sketch "scale" goes from 0, to 0.01, over twelve
+// uniform stops. You can see the impact the "scale" variable has clearly.
+//
+// This is based of canvas-sketch (github.com/mattdesl/canvas-sketch), and
+// you'll have access to its random, math, geometry libraries.
+//
+// Made by @devinmcgloin, would love to hear what you think about it at
+// devin@mcgloin.email
+
+
+const p2c = (r, theta) => [r * Math.cos(theta), r * Math.sin(theta), 0];
 const { background, palette } = randomPalette();
 
 const ringCount = palette.length;
