@@ -46,7 +46,7 @@ const VariableEditor = ({
           </button>
         ))}
       >
-        {() => (
+        {({ closeModal }) => (
           <div className="bg-white overflow-hidden shadow rounded-lg">
             <div className="px-4 py-5 sm:p-6 space-y-4 w-[400px]">
               <div>
@@ -68,7 +68,8 @@ const VariableEditor = ({
                   />
                 </div>
                 <p className="mt-2 text-sm text-gray-500" id="name-description">
-                  You can reference the name in code directly.
+                  You can reference the name in code under the variables
+                  namespace.
                 </p>
               </div>
               <div>
@@ -155,7 +156,10 @@ const VariableEditor = ({
               </Switch.Group>
 
               <button
-                onClick={onRemove}
+                onClick={() => {
+                  onRemove();
+                  closeModal();
+                }}
                 type="button"
                 className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
               >
