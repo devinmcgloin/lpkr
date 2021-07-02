@@ -31,6 +31,7 @@ function MyApp({ Component, pageProps }) {
         <link rel="apple-touch-icon" href="/apple-icon.png"></link>
         <meta name="theme-color" content="#FFF" />
       </Head>
+      <div id="__lpkr_popper"></div>
       <Component {...pageProps} />
     </>
   );

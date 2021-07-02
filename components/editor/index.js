@@ -1,4 +1,4 @@
-import { useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import Renderer from "components/editor/renderer";
 import dynamic from "next/dynamic";
 import defaultSketch from "./default-sketch";
@@ -8,8 +8,10 @@ import {
   LockClosedIcon,
   DownloadIcon,
   ViewBoardsIcon,
+  PlusCircleIcon,
 } from "@heroicons/react/solid";
 import useLocalStorage from "hooks/local-storage";
+import VariableEditor from "./variable-manager";
 
 const EditorWithoutSSR = dynamic(() => import("components/editor/editor"), {
   ssr: false,
@@ -37,6 +39,22 @@ export default function Editor() {
     dimensions: [1000, 1000],
     pixelsPerInch: 300,
   });
+  const [variables, setVariables] = useState([
+    { name: "line_angle", min: "20", max: "200" },
+    { name: "line_spacing", min: "2", max: "2 * Math.PI" },
+    { name: "line_width", min: "20", max: "200" },
+  ]);
+
+  const handleVariableUpdate = (index) => {
+    return (variable) => {
+      let newVariables = [...variables];
+      newVariables.splice(index, 1, {
+        ...newVariables[index],
+        ...variable,
+      });
+      setVariables(newVariables);
+    };
+  };
 
   const multiMode = multiEditorCount > 1;
 
@@ -74,7 +92,34 @@ export default function Editor() {
             type="button"
             className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            <PlayIcon className="-ml-0.5 mr-2 h-4 w-4" aria-hidden="true" />
+            {shouldRefresh ? (
+              <>
+                <svg
+                  className="animate-spin -ml-0.5 mr-2 h-4 w-4 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+              </>
+            ) : (
+              <>
+                <PlayIcon className="-ml-0.5 mr-2 h-4 w-4" aria-hidden="true" />
+              </>
+            )}{" "}
             Run
           </button>
           <div className="flex items-center px-2 space-x-2">
@@ -100,17 +145,17 @@ export default function Editor() {
               type="button"
               className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              <ViewBoardsIcon className="m-0.5  h-4 w-4" aria-hidden="true" />
+              <ViewBoardsIcon className="m-0.5 h-4 w-4" aria-hidden="true" />
             </button>
           </div>
         </div>
-        <div className="min-h-[3.5rem] border-b flex items-center px-2">
+        <div className="min-h-[3.5rem] border-b flex items-center flex-wrap pb-2 overflow-y-scroll">
           <button
             onClick={() => {
               setFixedSeed((prev) => !prev);
             }}
             type="button"
-            className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="inline-flex items-center ml-2 mt-2 px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             {fixedSeed ? (
               <>
@@ -129,6 +174,25 @@ export default function Editor() {
                 Random Seed
               </>
             )}
+          </button>
+          {variables.map((variable, index) => (
+            <VariableEditor
+              {...variable}
+              key={index}
+              onChange={handleVariableUpdate(index)}
+            />
+          ))}
+          <button
+            onClick={() => {
+              setVariables((prev) => [
+                ...prev,
+                { name: "Undefined", min: null, max: null, editing: true },
+              ]);
+            }}
+            type="button"
+            className="ml-2 mt-2 inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            <PlusCircleIcon className="m-0.5 h-4 w-4" aria-hidden="true" />
           </button>
         </div>
 
