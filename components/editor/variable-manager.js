@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { usePopper } from "react-popper";
 import ReactDOM from "react-dom";
 import { WithoutSSR } from "lib/ssr";
-import { TrashIcon } from "@heroicons/react/solid";
+import { TrashIcon, SaveIcon } from "@heroicons/react/solid";
 import { Switch } from "@headlessui/react";
 
 function classNames(...classes) {
@@ -154,20 +154,27 @@ const VariableEditor = ({
                   />
                 </Switch>
               </Switch.Group>
-
+            </div>
+            <div className="bg-gray-50 px-4 py-4 sm:px-6 flex items-center justify-between">
+              <button
+                onClick={() => {
+                  closeModal();
+                }}
+                className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                type="button"
+              >
+                <SaveIcon className="mr-2 -ml-0.5 h-4 w-4" aria-hidden="true" />
+                Save
+              </button>
               <button
                 onClick={() => {
                   onRemove();
                   closeModal();
                 }}
                 type="button"
-                className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                className="inline-flex items-center px-3 py-2 border border-transparent text-xs font-medium rounded text-red-700 bg-red-50 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
               >
-                <TrashIcon
-                  className="mr-2 -ml-0.5 h-4 w-4"
-                  aria-hidden="true"
-                />
-                Remove Variable
+                <TrashIcon className="h-4 w-4" aria-hidden="true" />
               </button>
             </div>
           </div>
