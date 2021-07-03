@@ -7,8 +7,8 @@ function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
   useEffect(() => {
-    Fathom.load("UFFRSEFV", {
-      includedDomains: ["devin.website"],
+    Fathom.load("GDPVRAHF", {
+      includedDomains: ["www.lpkr.net"],
     });
 
     function onRouteChangeComplete() {
