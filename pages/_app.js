@@ -1,7 +1,25 @@
 import "../styles/globals.css";
-import Head from "next/head";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+import * as Fathom from "fathom-client";
 
 function MyApp({ Component, pageProps }) {
+  const router = useRouter();
+
+  useEffect(() => {
+    Fathom.load("UFFRSEFV", {
+      includedDomains: ["devin.website"],
+    });
+
+    function onRouteChangeComplete() {
+      Fathom.trackPageview();
+    }
+    router.events.on("routeChangeComplete", onRouteChangeComplete);
+    return () => {
+      router.events.off("routeChangeComplete", onRouteChangeComplete);
+    };
+  }, []);
+
   return (
     <>
       <div id="__lpkr_popper"></div>
