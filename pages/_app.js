@@ -9,7 +9,7 @@ function MyApp({ Component, pageProps }) {
   useEffect(() => {
     Fathom.load("GDPVRAHF", {
       includedDomains: ["www.lpkr.net", "lpkr.vercel.app"],
-      url: ["gecko.lpkr.net"],
+      url: ["https://gecko.lpkr.net/script.js"],
     });
 
     function onRouteChangeComplete() {
