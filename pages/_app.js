@@ -12,8 +12,8 @@ function MyApp({ Component, pageProps }) {
       url: ["https://gecko.lpkr.net/script.js"],
     });
 
-    function onRouteChangeComplete() {
-      Fathom.trackPageview();
+    function onRouteChangeComplete(url) {
+      Fathom.trackPageview({ url });
     }
     router.events.on("routeChangeComplete", onRouteChangeComplete);
     return () => {
