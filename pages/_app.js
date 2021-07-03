@@ -9,6 +9,7 @@ function MyApp({ Component, pageProps }) {
   useEffect(() => {
     Fathom.load("GDPVRAHF", {
       includedDomains: ["www.lpkr.net"],
+      url: ["gecko.lpkr.net"],
     });
 
     function onRouteChangeComplete() {
