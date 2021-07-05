@@ -5,6 +5,7 @@ import {
   PlusCircleIcon,
   XIcon,
 } from "@heroicons/react/outline";
+import { trackGoal } from "fathom-client";
 
 export default function HelpModal({ open, setOpen }) {
   return (
@@ -49,7 +50,10 @@ export default function HelpModal({ open, setOpen }) {
                 <button
                   type="button"
                   className="bg-gray-50 rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                  onClick={() => setOpen(false)}
+                  onClick={() => {
+                    trackGoal("ZIQTFSDV", 0);
+                    setOpen(false);
+                  }}
                 >
                   <span className="sr-only">Close</span>
                   <XIcon className="h-6 w-6" aria-hidden="true" />
@@ -137,7 +141,10 @@ export default function HelpModal({ open, setOpen }) {
                   <button
                     type="button"
                     className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm"
-                    onClick={() => setOpen(false)}
+                    onClick={() => {
+                      trackGoal("ZIQTFSDV", 0);
+                      setOpen(false);
+                    }}
                   >
                     Get Started
                   </button>

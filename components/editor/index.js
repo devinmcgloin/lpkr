@@ -14,6 +14,7 @@ import {
 import useLocalStorage from "hooks/local-storage";
 import VariableEditor from "./variable-manager";
 import HelpModal from "components/editor/help-modal";
+import { trackGoal } from 'fathom-client';
 
 const EditorWithoutSSR = dynamic(() => import("components/editor/editor"), {
   ssr: false,
@@ -94,6 +95,7 @@ export default function Editor() {
           <button
             onClick={() => {
               if (!shouldRefresh) {
+                trackGoal('GUPSDDRC', 0);
                 setLogs([]);
                 setShouldRefresh(true);
                 if (!fixedSeed)

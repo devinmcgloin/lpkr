@@ -1,5 +1,6 @@
 import { WithoutSSR } from "lib/ssr";
 import Editor from "@monaco-editor/react";
+import { trackGoal } from "fathom-client";
 
 const MonacoEditor = ({ height = "h-full", program, handleProgramChange }) => {
   return (
@@ -9,6 +10,7 @@ const MonacoEditor = ({ height = "h-full", program, handleProgramChange }) => {
           language="javascript"
           value={program}
           onChange={(value, event) => {
+            trackGoal("CUJO3NS3", 0);
             handleProgramChange(value);
           }}
           options={{
