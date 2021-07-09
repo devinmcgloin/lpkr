@@ -1,5 +1,5 @@
-import Editor from "components/editor";
-import { StandardMetadata } from "components/social-metadata";
+import Editor from 'components/editor';
+import { StandardMetadata } from 'components/social-metadata';
 
 export default function EditorPage() {
   return (

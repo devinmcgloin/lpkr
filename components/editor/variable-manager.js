@@ -1,12 +1,13 @@
-import React, { useState, useRef, useEffect } from "react";
-import { usePopper } from "react-popper";
-import ReactDOM from "react-dom";
-import { WithoutSSR } from "lib/ssr";
-import { TrashIcon, SaveIcon } from "@heroicons/react/solid";
-import { Switch } from "@headlessui/react";
+/* eslint-disable react/display-name */
+import React, { useState, useRef, useEffect } from 'react';
+import { usePopper } from 'react-popper';
+import ReactDOM from 'react-dom';
+import { WithoutSSR } from 'lib/ssr';
+import { TrashIcon, SaveIcon } from '@heroicons/react/solid';
+import { Switch } from '@headlessui/react';
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+  return classes.filter(Boolean).join(' ');
 }
 
 const VariableEditor = ({
@@ -25,15 +26,15 @@ const VariableEditor = ({
             {...props}
             ref={ref}
             className={`relative ml-2 mt-2 inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md ${
-              !!name && "text-gray-700 bg-white focus:ring-indigo-500"
+              !!name && 'text-gray-700 bg-white focus:ring-indigo-500'
             } ${
               !name &&
-              "border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500"
+              'border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500'
             } ${
-              linearInterpolate && "border-green-300 text-green-600"
+              linearInterpolate && 'border-green-300 text-green-600'
             } hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 `}
           >
-            {!!name ? (
+            {name ? (
               <>
                 <span>{name}</span>
                 <span className="ml-1 text-sm text-gray-400">
@@ -64,7 +65,7 @@ const VariableEditor = ({
                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                     placeholder="line_angle"
                     onChange={(e) => onChange({ name: e.target.value })}
-                    value={name || ""}
+                    value={name || ''}
                   />
                 </div>
                 <p className="mt-2 text-sm text-gray-500" id="name-description">
@@ -87,7 +88,7 @@ const VariableEditor = ({
                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                     placeholder="0"
                     onChange={(e) => onChange({ min: e.target.value })}
-                    value={min || ""}
+                    value={min || ''}
                   />
                 </div>
                 <p className="mt-2 text-sm text-gray-500" id="min-description">
@@ -109,7 +110,7 @@ const VariableEditor = ({
                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                     placeholder="8 * Math.PI"
                     onChange={(e) => onChange({ max: e.target.value })}
-                    value={max || ""}
+                    value={max || ''}
                   />
                 </div>
                 <p className="mt-2 text-sm text-gray-500" id="max-description">
@@ -141,15 +142,15 @@ const VariableEditor = ({
                     onChange({ linearInterpolate: !linearInterpolate })
                   }
                   className={classNames(
-                    linearInterpolate ? "bg-green-600" : "bg-gray-200",
-                    "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    linearInterpolate ? 'bg-green-600' : 'bg-gray-200',
+                    'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
                   )}
                 >
                   <span
                     aria-hidden="true"
                     className={classNames(
-                      linearInterpolate ? "translate-x-5" : "translate-x-0",
-                      "pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"
+                      linearInterpolate ? 'translate-x-5' : 'translate-x-0',
+                      'pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200'
                     )}
                   />
                 </Switch>
@@ -190,19 +191,19 @@ const Breakout = React.forwardRef(
       <div
         className="z-50"
         ref={ref}
-        style={{ ...styles.popper, display: visible ? "flex" : "none" }}
+        style={{ ...styles.popper, display: visible ? 'flex' : 'none' }}
         {...attributes.popper}
       >
         <div style={styles.offset}>{children}</div>
       </div>,
-      document.getElementById("__lpkr_popper")
+      document.getElementById('__lpkr_popper')
     )
 );
 
 export function Popover({
   Opener,
   children,
-  placement = "auto",
+  placement = 'auto',
   offset = [0, 0],
 }) {
   const [visible, setVisible] = useState(false);
@@ -216,17 +217,17 @@ export function Popover({
     popperRef.current,
     {
       placement: placement,
-      strategy: "absolute",
+      strategy: 'absolute',
       modifiers: [
         {
-          name: "offset",
+          name: 'offset',
           enabled: !!offset,
           options: {
             offset: offset,
           },
         },
         {
-          name: "preventOverflow",
+          name: 'preventOverflow',
           options: {
             padding: 8,
           },
@@ -246,15 +247,15 @@ export function Popover({
   };
 
   useEffect(() => {
-    document.addEventListener("click", handleClick);
-    return () => document.removeEventListener("click", handleClick);
+    document.addEventListener('click', handleClick);
+    return () => document.removeEventListener('click', handleClick);
   }, []);
 
   return (
     <div>
-      <div ref={containerRef} onClick={() => setVisible(true)}>
+      <button ref={containerRef} onClick={() => setVisible(true)}>
         <Opener ref={referenceRef} visible={visible} />
-      </div>
+      </button>
       <Breakout
         ref={popperRef}
         visible={visible}

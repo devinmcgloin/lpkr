@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
-import { Hook, Unhook, Console, Decode } from "console-feed";
-import { WithoutSSR } from "lib/ssr";
+import { useEffect } from 'react';
+import { Hook, Unhook, Console } from 'console-feed';
+import { WithoutSSR } from 'lib/ssr';
 
-export default ({ height, logs, setLogs }) => {
+const ConsoleDisplay = ({ height, logs, setLogs }) => {
   useEffect(() => {
     Hook(
       window.console,
@@ -22,3 +22,5 @@ export default ({ height, logs, setLogs }) => {
     </div>
   );
 };
+
+export default ConsoleDisplay;

@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from "react";
-import canvasSketch from "canvas-sketch";
-import * as rnd from "canvas-sketch-util/random";
-import * as mth from "canvas-sketch-util/math";
-import * as geo from "canvas-sketch-util/geometry";
-import { randomPalette } from "lib/palette";
-import PoissonDiskSampling from "poisson-disk-sampling";
+import { useEffect, useRef, useState } from 'react';
+import canvasSketch from 'canvas-sketch';
+import * as rnd from 'canvas-sketch-util/random';
+import * as mth from 'canvas-sketch-util/math';
+import * as geo from 'canvas-sketch-util/geometry';
+import { randomPalette } from 'lib/palette';
+import PoissonDiskSampling from 'poisson-disk-sampling';
 
 const Renderer = ({
   index,
@@ -20,7 +20,7 @@ const Renderer = ({
 
   const clearCanvas = () => {
     let canvas = ref.current;
-    let context = canvas.getContext("2d");
+    let context = canvas.getContext('2d');
 
     context.setTransform(1, 0, 0, 1, 0, 0);
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -103,7 +103,7 @@ const Renderer = ({
       <div className="mt-1 mx-auto text-center">
         <ul className=" text-sm text-gray-500">
           {Object.entries(topVars).map(([key, val]) => (
-            <li>
+            <li key={key}>
               {key.toLocaleString()}: {val.toLocaleString()}
             </li>
           ))}

@@ -1,11 +1,7 @@
-import { Fragment, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import {
-  QuestionMarkCircleIcon,
-  PlusCircleIcon,
-  XIcon,
-} from "@heroicons/react/outline";
-import { trackGoal } from "fathom-client";
+import { Fragment } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import { PlusCircleIcon, XIcon } from '@heroicons/react/outline';
+import { trackGoal } from 'fathom-client';
 
 export default function HelpModal({ open, setOpen }) {
   return (
@@ -51,7 +47,7 @@ export default function HelpModal({ open, setOpen }) {
                   type="button"
                   className="bg-gray-50 rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                   onClick={() => {
-                    trackGoal("ZIQTFSDV", 0);
+                    trackGoal('ZIQTFSDV', 0);
                     setOpen(false);
                   }}
                 >
@@ -93,27 +89,29 @@ export default function HelpModal({ open, setOpen }) {
 
                     <h4 className="text-center">Using lpkr</h4>
                     <p>
-                      lpkr is based on{" "}
+                      lpkr is based on{' '}
                       <a
                         href="https://github.com/mattdesl/canvas-sketch"
                         target="_blank"
+                        rel="noreferrer"
                       >
                         canvas-sketch
                       </a>
-                      , and you'll have access to its <code>random</code>,{" "}
+                      , and you'll have access to its <code>random</code>,{' '}
                       <code>geometry</code>, and <code>math</code> libraries.
-                      The context provided is a standard{" "}
+                      The context provided is a standard{' '}
                       <a
                         target="_blank"
                         href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D"
+                        rel="noreferrer"
                       >
                         2D Rendering Canvas
-                      </a>{" "}
+                      </a>{' '}
                       object.
                     </p>
                     <p className="diagonal-fractions">
-                      You can populate variables by clicking the{" "}
-                      <PlusCircleIcon className="w-4 h-4 align-middle inline" />{" "}
+                      You can populate variables by clicking the{' '}
+                      <PlusCircleIcon className="w-4 h-4 align-middle inline" />{' '}
                       button. Any parameters can be complex expressions and will
                       be evaluated. You can optionally lock a variable into a
                       linear interpolation at 1/12 increments. You'll find
@@ -128,7 +126,7 @@ export default function HelpModal({ open, setOpen }) {
                       past checkpoints.
                     </p>
                     <p>
-                      Made by{" "}
+                      Made by{' '}
                       <a href="https://twitter.com/devinmcgloin">
                         Devin McGloin
                       </a>
@@ -142,7 +140,7 @@ export default function HelpModal({ open, setOpen }) {
                     type="button"
                     className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm"
                     onClick={() => {
-                      trackGoal("ZIQTFSDV", 0);
+                      trackGoal('ZIQTFSDV', 0);
                       setOpen(false);
                     }}
                   >

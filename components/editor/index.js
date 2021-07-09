@@ -1,7 +1,7 @@
-import { useEffect, useReducer, useState } from "react";
-import Renderer from "components/editor/renderer";
-import dynamic from "next/dynamic";
-import defaultSketch from "./default-sketch";
+import { useReducer, useState } from 'react';
+import Renderer from 'components/editor/renderer';
+import dynamic from 'next/dynamic';
+import defaultSketch from './default-sketch';
 import {
   PlayIcon,
   LockOpenIcon,
@@ -10,17 +10,17 @@ import {
   ViewBoardsIcon,
   PlusCircleIcon,
   QuestionMarkCircleIcon,
-} from "@heroicons/react/solid";
-import useLocalStorage from "hooks/local-storage";
-import VariableEditor from "./variable-manager";
-import HelpModal from "components/editor/help-modal";
+} from '@heroicons/react/solid';
+import useLocalStorage from 'hooks/local-storage';
+import VariableEditor from './variable-manager';
+import HelpModal from 'components/editor/help-modal';
 import { trackGoal } from 'fathom-client';
 
-const EditorWithoutSSR = dynamic(() => import("components/editor/editor"), {
+const EditorWithoutSSR = dynamic(() => import('components/editor/editor'), {
   ssr: false,
 });
 
-const ConsoleWithoutSSR = dynamic(() => import("components/editor/console"), {
+const ConsoleWithoutSSR = dynamic(() => import('components/editor/console'), {
   ssr: false,
 });
 
@@ -30,7 +30,7 @@ const settingsReducer = (state, action) => {
 
 export default function Editor() {
   const [program, setProgram] = useLocalStorage(
-    "sketch-program",
+    'sketch-program',
     defaultSketch
   );
   const [shouldRefresh, setShouldRefresh] = useState(false);
@@ -44,12 +44,12 @@ export default function Editor() {
     dimensions: [300, 300],
     pixelsPerInch: 300,
   });
-  const [variables, setVariables] = useLocalStorage("sketch-variables", [
-    { name: "flow", min: "1", max: "2", linearInterpolate: false },
-    { name: "scale", min: "0", max: "0.01", linearInterpolate: true },
-    { name: "stepSize", min: "5", max: "8" },
+  const [variables, setVariables] = useLocalStorage('sketch-variables', [
+    { name: 'flow', min: '1', max: '2', linearInterpolate: false },
+    { name: 'scale', min: '0', max: '0.01', linearInterpolate: true },
+    { name: 'stepSize', min: '5', max: '8' },
   ]);
-  const [showHelpModal, setShowHelpModal] = useLocalStorage("help-modal", true);
+  const [showHelpModal, setShowHelpModal] = useLocalStorage('help-modal', true);
 
   const handleVariableUpdate = (index) => {
     return (variable) => {
@@ -73,14 +73,15 @@ export default function Editor() {
   const multiMode = multiEditorCount > 1;
 
   const download = () => {
-    var canvases = document.getElementsByTagName("canvas");
+    if (multiMode) return;
+    var canvases = document.getElementsByTagName('canvas');
     let seedIndex = 0;
     for (let index = 0; index < canvases.length; index++) {
       let canvas = canvases[index];
-      if (canvas.id != "sketch") continue;
+      if (canvas.id != 'sketch') continue;
 
-      var image = canvas.toDataURL("image/png");
-      var link = document.createElement("a");
+      var image = canvas.toDataURL('image/png');
+      var link = document.createElement('a');
       link.download = `${seeds[seedIndex]}.png`;
       link.href = image;
       link.click();
@@ -134,13 +135,13 @@ export default function Editor() {
               <>
                 <PlayIcon className="-ml-0.5 mr-2 h-4 w-4" aria-hidden="true" />
               </>
-            )}{" "}
+            )}{' '}
             Run
           </button>
           <div className="flex items-center px-2 space-x-2">
             {!multiMode && (
               <button
-                onClick={() => download()}
+                onClick={download}
                 type="button"
                 className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
@@ -153,7 +154,7 @@ export default function Editor() {
                 setMultiEditorCount(count);
                 setSeeds(Array.from(Array(count)).map(() => Math.random()));
                 dispatchSettings({
-                  type: "dimensions",
+                  type: 'dimensions',
                   value: multiMode ? [1000, 1000] : [300, 300],
                 });
               }}
@@ -192,7 +193,7 @@ export default function Editor() {
                   className="-ml-0.5 mr-2 h-4 w-4"
                   aria-hidden="true"
                 />
-                {!multiMode ? seeds[0] : "All Seeds Locked"}
+                {!multiMode ? seeds[0] : 'All Seeds Locked'}
               </>
             ) : (
               <>
@@ -227,11 +228,11 @@ export default function Editor() {
         </div>
 
         <EditorWithoutSSR
-          height={"flex-1"}
+          height={'flex-1'}
           program={program}
           handleProgramChange={(program) => setProgram(program)}
         />
-        <ConsoleWithoutSSR height={"h-32"} logs={logs} setLogs={setLogs} />
+        <ConsoleWithoutSSR height={'h-32'} logs={logs} setLogs={setLogs} />
       </div>
       {!multiMode ? (
         <div className="flex w-full h-full items-center justify-around bg-[#FAF9F6] ">

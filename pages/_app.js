@@ -1,23 +1,23 @@
-import "../styles/globals.css";
-import { useEffect } from "react";
-import { useRouter } from "next/router";
-import * as Fathom from "fathom-client";
+import '../styles/globals.css';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import * as Fathom from 'fathom-client';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
   useEffect(() => {
-    Fathom.load("GDPVRAHF", {
-      includedDomains: ["www.lpkr.net", "lpkr.vercel.app"],
-      url: ["https://gecko.lpkr.net/script.js"],
+    Fathom.load('GDPVRAHF', {
+      includedDomains: ['www.lpkr.net', 'lpkr.vercel.app'],
+      url: ['https://gecko.lpkr.net/script.js'],
     });
 
     function onRouteChangeComplete(url) {
       Fathom.trackPageview({ url });
     }
-    router.events.on("routeChangeComplete", onRouteChangeComplete);
+    router.events.on('routeChangeComplete', onRouteChangeComplete);
     return () => {
-      router.events.off("routeChangeComplete", onRouteChangeComplete);
+      router.events.off('routeChangeComplete', onRouteChangeComplete);
     };
   }, []);
 
