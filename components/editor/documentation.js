@@ -104,7 +104,7 @@ export default function Documentation({ open, setOpen }) {
   if (!open) return null;
 
   return (
-    <div className="w-screen max-w-md">
+    <div className="w-screen max-w-md border-l-2">
       <div className="h-full flex flex-col py-6 bg-white shadow-xl overflow-y-scroll">
         <div className="px-4 sm:px-6">
           <div className="flex items-start justify-between">
