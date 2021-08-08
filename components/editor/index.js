@@ -15,6 +15,7 @@ import useLocalStorage from 'hooks/local-storage';
 import VariableEditor from './variable-manager';
 import HelpModal from 'components/editor/help-modal';
 import { trackGoal } from 'fathom-client';
+import Documentation from 'components/editor/documentation';
 
 const EditorWithoutSSR = dynamic(() => import('components/editor/editor'), {
   ssr: false,
@@ -50,6 +51,7 @@ export default function Editor() {
     { name: 'stepSize', min: '5', max: '8' },
   ]);
   const [showHelpModal, setShowHelpModal] = useLocalStorage('help-modal', true);
+  const [showDocumentation, setShowDocumentation] = useState(false);
 
   const handleVariableUpdate = (index) => {
     return (variable) => {
@@ -166,7 +168,7 @@ export default function Editor() {
 
             <button
               onClick={() => {
-                setShowHelpModal(true);
+                setShowDocumentation((prev) => !prev);
               }}
               type="button"
               className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
@@ -248,7 +250,7 @@ export default function Editor() {
         </div>
       ) : (
         <div className="h-full w-full grid bg-[#FAF9F6] overflow-x-auto">
-          <div className="grid grid-cols-2 2xl:grid-cols-3 4xl:grid-cols-4 w-full gap-7 p-7">
+          <div className="grid grid-cols-2 2xl:grid-cols-3 w-full gap-7 p-7">
             {Array.from(Array(multiEditorCount)).map((id, index) => (
               <Renderer
                 settings={settings}
@@ -264,6 +266,7 @@ export default function Editor() {
           </div>
         </div>
       )}
+      <Documentation setOpen={setShowDocumentation} open={showDocumentation} />
     </div>
   );
 }
